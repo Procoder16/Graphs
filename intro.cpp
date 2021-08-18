@@ -3,7 +3,32 @@
 
 #include<iostream>
 #include<vector>
+#include<queue>
 using namespace std;
+
+void bfs(int n, vector<int> adj[]){
+
+    vector<int> vis(n+1, 0);
+
+    for(int i = 1; i <= n; i++){
+        if(!vis[i]){
+            vis[i] = 1;
+            queue<int> q;
+            q.push(i);
+            while(!q.empty()){
+                int node = q.front();
+                q.pop();
+                cout<<node<<" ";
+                for(auto it : adj[node]){
+                    if(!vis[it]){
+                        q.push(it);
+                        vis[it] = 1;
+                    }
+                }
+            }
+        }
+    }
+}
 
 int main(){
 
@@ -27,8 +52,8 @@ int main(){
 
     //ADJACENCY LIST
     
-    vector<int> adj[6];
-
+    vector<int> adj[n+1]; // this creates a static array of n+1 vectors
+    cout<<"ENTER THE PAIRS OF NODES:"<<endl;
     for(int i = 0; i < m; i++){
         int u, v;
         cin>>u>>v;
@@ -36,6 +61,9 @@ int main(){
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
+
+    cout<<"THE BFS TRAVERSAL OF THE GRAPH IS AS FOLLOWS:"<<endl;
+    bfs(n, adj);
 
     return 0;
 }
