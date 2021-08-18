@@ -8,18 +8,18 @@ using namespace std;
 
 void bfs(int n, vector<int> adj[]){
 
-    vector<int> vis(n+1, 0);
+    vector<int> vis(n+1, 0); // this is the visited array
 
     for(int i = 1; i <= n; i++){
-        if(!vis[i]){
-            vis[i] = 1;
+        if(!vis[i]){ // checking if its already visited or not
+            vis[i] = 1; // marking the visisted array
             queue<int> q;
             q.push(i);
             while(!q.empty()){
                 int node = q.front();
                 q.pop();
                 cout<<node<<" ";
-                for(auto it : adj[node]){
+                for(auto it : adj[node]){ // loop for all the adjacents of the particular node being checked from the adjacency list
                     if(!vis[it]){
                         q.push(it);
                         vis[it] = 1;
