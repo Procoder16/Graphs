@@ -2,7 +2,7 @@
 #include<queue>
 using namespace std;
 
-void dfs(int i, vector<int> vis, vector<int> adj[], vector<int> storedfs){
+void dfs(int i, vector<int> vis, vector<int> adj[], vector<int> &storedfs){
     vis[i] = 1;
     storedfs.push_back(i);
 
