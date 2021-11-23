@@ -75,3 +75,64 @@ int main(){
 
     return 0;
 }
+
+// #include<bits/stdc++.h>
+// using namespace std;
+
+// bool isBipartite(int n, vector<int> adj[]){
+//     vector<int> vis(n+1, -1);
+    
+//     for(int i = 1; i <= n; i++){
+//         if(vis[i] == -1){
+//             queue<pair<int, int>> q;
+//             q.push({i,0});
+//             while(!q.empty()){
+//                 int node = q.front().first;
+//                 int color = q.front().second;
+//                 q.pop();
+//                 for(auto it : adj[node]){
+//                     if(vis[it] == -1){
+//                         if(color == 0){
+//                             vis[it] = 1;
+//                             q.push({it, 1});
+//                         }
+//                         else{
+//                             vis[it] = 0;
+//                             q.push({it, 0});
+//                         }
+//                     }
+//                     else{
+//                         if(vis[it] == color){
+//                             return false;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     return true;
+// }
+
+// int main(){
+    
+//     int n, m;
+//     cin>>n>>m;
+    
+//     vector<int> adj[n+1];
+    
+//     for(int i = 0; i < m; i++){
+//         int u, v;
+//         cin>>u>>v;
+//         adj[u].push_back(v);
+//         adj[v].push_back(u);
+//     }
+    
+//     if(isBipartite(n, adj)){
+//         cout<<"BIPARTITE COLORING POSSIBLE!";
+//     }
+//     else{
+//         cout<<"BIPARTITE COLORING NOT POSSIBLE!";
+//     }
+    
+//     return 0;
+// }
