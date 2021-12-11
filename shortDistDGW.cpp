@@ -34,7 +34,7 @@ void shortDistDGW(vector<pair<int, int>> adj[], int n){
         int n = topoSort.top();
         topoSort.pop();
         for(auto it : adj[n]){
-            if(shortDist[it.first] != INT_MAX){
+            if(shortDist[it.first] == INT_MAX){
                 shortDist[it.first] = min(shortDist[it.first], shortDist[n] + it.second);
             }
         }
