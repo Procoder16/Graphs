@@ -1,5 +1,7 @@
 //cycle detection in an undirected graph using BFS
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<queue>
 using namespace std;
 
 bool checkCycle(int i, vector<int> adj[], vector<int> &vis){
