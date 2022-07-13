@@ -1,5 +1,6 @@
 //Cycle Detection in a Graph using DFS
-#include<bits/stdc++.h>
+#include<iostream>
+#include<queue>
 using namespace std;
 
 bool checkCycleDFS(int i, vector<int> adj[], vector<int> &vis, int par){
