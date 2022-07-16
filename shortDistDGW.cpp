@@ -1,4 +1,7 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<utility>
+#include<stack>
 using namespace std;
 
 void topoSortDFS(vector<pair<int, int>> adj[], int i, vector<int> &vis, stack<int> &topoSort){
