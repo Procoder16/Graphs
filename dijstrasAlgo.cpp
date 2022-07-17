@@ -1,5 +1,8 @@
 //DIJKSTRA's ALGORITHM
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<utility>
+#include<queue>
 using namespace std;
 
 void dijkstra(vector<pair<int, int>> adj[], int n){
