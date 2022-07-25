@@ -1,6 +1,8 @@
 //Bipartite Check BFS added
 
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<queue>
 using namespace std;
 
 bool bipartiteBFS(int n, vector<int> adj[], vector<int> &color){
