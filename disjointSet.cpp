@@ -1,6 +1,6 @@
 //This code would be just the basic implementation of the Disjoint Set Data Structure
 
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
 
 int parent[10000];
