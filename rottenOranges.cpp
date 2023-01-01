@@ -1,16 +1,23 @@
 class Solution {
-    void rottenOrangesHelper(vector<vector<int>>& grid, vector<vector<int>>& vis, int &time){
+    int rottenOrangesHelper(vector<vector<int>>& grid, vector<vector<int>>& vis, int &time){
         int row = grid.size();
         int col = grid[0].size();
         queue<pair<pair<int, int>, int>> q;
+
+        int countFresh = 0;
 
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
                 if(grid[i][j] == 2){
                     q.push({{i, j}, 0});
                 }
+                if(grid[i][j] == 1){
+                    countFresh++;
+                }
             }
         }
+
+        int countUpdated = 0;
 
         while(!q.empty()){
             int row = q.front().first.first;
@@ -26,6 +33,7 @@ class Solution {
                 grid[newRow][col] == 1 && vis[newRow][col] == -1){
                     vis[newRow][col] = 2;
                     q.push({{newRow, col}, currTime + 1});
+                    countUpdated++;
                 }
             }
             for(int i = -1; i <= 1; i++){
@@ -34,9 +42,11 @@ class Solution {
                 grid[row][newCol] == 1 && vis[row][newCol] == -1){
                     vis[row][newCol] = 2;
                     q.push({{row, newCol}, currTime + 1});
+                    countUpdated++;
                 }
             }
         }
+        return (countFresh != countUpdated) ? -1 : time;
     }
 public:
     int orangesRotting(vector<vector<int>>& grid) {
@@ -47,16 +57,6 @@ public:
 
         int time = 0;
 
-        rottenOrangesHelper(grid, vis, time);
-
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                if(grid[i][j] == 1 && vis[i][j] != 2){
-                    return -1;
-                }
-            }
-        }
-
-        return time;
+        return rottenOrangesHelper(grid, vis, time);
     }
 };
