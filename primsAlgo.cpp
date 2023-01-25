@@ -1,63 +1,67 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void primsAlgo(vector<pair<int, int>> adj[], int n){
-    vector<int> key(n+1, INT_MAX);
-    vector<bool> mst(n+1, false);
-    vector<int> parent(n+1, -1);
-
-    key[0] = 0;
-
-    for(int i = 0; i < n-1; i++){  // because we will be having n-1 edges
-        int mini = INT_MAX, u;
-        for(int v = 0; v < n; v++){
-            if(mst[v] == false && key[v] < mini){
-                u = v;
-                mini = key[v];
+class Solution{
+	public:
+    int spanningTree(int V, vector<vector<int>> adj[]){
+        int sum = 0;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        
+        vector<int> vis(V, 0);
+        
+        pq.push({0, 0});
+        
+        while(!pq.empty()){
+            auto n = pq.top();
+            pq.pop();
+            
+            int wt = n.first;
+            int node = n.second;
+            
+            if(vis[node] == 1){
+                continue;
             }
-        }
-
-        mst[u] = true;
-
-        for(auto it : adj[u]){
-            int n = it.first;
-            int w = it.second;
-
-            if(mst[n] == false){
-                if(w < key[n]){
-                    key[n] = w;
-                    parent[n] = u;
+            
+            sum += wt;
+            
+            vis[node] = 1;
+            for(auto it : adj[node]){
+                int adjNode = it[0];
+                int edW = it[1];
+                if(vis[adjNode] == 0){
+                    pq.push({edW, adjNode});
                 }
             }
         }
+        
+        return sum;
     }
+};
 
-    cout<<"THE MINIMUM SPANNING TREE IS OF THE FORM:"<<endl;
-    for(int i = 1; i < n; i++){
-        cout<<parent[i]<<" - "<<i<<endl;
-    }    
-}
-
-int main(){
-
-    int n, m;
-    cout<<"ENTER THE NUMBER OF NODES:";
-    cin>>n;
-
-    cout<<"ENTER THE NUMBER OF EDGES:";
-    cin>>m;
-
-    vector<pair<int, int>> adj[n+1];
-
-    for(int i = 0; i < m; i++){
-        int u, v, w;
-        cin>>u>>v>>w;
-
-        adj[u].push_back(make_pair(v, w));
-        adj[v].push_back(make_pair(u, w));
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+        vector<vector<int>> adj[V];
+        int i=0;
+        while (i++<E) {
+            int u, v, w;
+            cin >> u >> v >> w;
+            vector<int> t1,t2;
+            t1.push_back(v);
+            t1.push_back(w);
+            adj[u].push_back(t1);
+            t2.push_back(u);
+            t2.push_back(w);
+            adj[v].push_back(t2);
+        }
+        
+        Solution obj;
+    	cout << obj.spanningTree(V, adj) << "\n";
     }
-
-    primsAlgo(adj, n);
 
     return 0;
 }
