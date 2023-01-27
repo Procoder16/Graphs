@@ -1,66 +1,114 @@
-//KRUSKAL'S ALGORITHM
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-struct node {
-    int u;
-    int v;
-    int wt; 
-    node(int first, int second, int weight) {
-        u = first;
-        v = second;
-        wt = weight;
+
+
+class DisjointSet {
+    vector<int> rank, parent, size;
+public:
+    DisjointSet(int n) {
+        rank.resize(n + 1, 0);
+        parent.resize(n + 1);
+        size.resize(n + 1);
+        for (int i = 0; i <= n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    int findUPar(int node) {
+        if (node == parent[node])
+            return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+
+    void unionByRank(int u, int v) {
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if (ulp_u == ulp_v) return;
+        if (rank[ulp_u] < rank[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+        }
+        else if (rank[ulp_v] < rank[ulp_u]) {
+            parent[ulp_v] = ulp_u;
+        }
+        else {
+            parent[ulp_v] = ulp_u;
+            rank[ulp_u]++;
+        }
+    }
+
+    void unionBySize(int u, int v) {
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if (ulp_u == ulp_v) return;
+        if (size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        }
+        else {
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+};
+class Solution
+{
+public:
+    //Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // 1 - 2 wt = 5
+        /// 1 - > (2, 5)
+        // 2 -> (1, 5)
+
+        // 5, 1, 2
+        // 5, 2, 1
+        vector<pair<int, pair<int, int>>> edges;
+        for (int i = 0; i < V; i++) {
+            for (auto it : adj[i]) {
+                int adjNode = it[0];
+                int wt = it[1];
+                int node = i;
+
+                edges.push_back({wt, {node, adjNode}});
+            }
+        }
+        DisjointSet ds(V);
+        sort(edges.begin(), edges.end());
+        int mstWt = 0;
+        for (auto it : edges) {
+            int wt = it.first;
+            int u = it.second.first;
+            int v = it.second.second;
+
+            if (ds.findUPar(u) != ds.findUPar(v)) {
+                mstWt += wt;
+                ds.unionBySize(u, v);
+            }
+        }
+
+        return mstWt;
     }
 };
 
-bool comp(node a, node b) {
-    return a.wt < b.wt; 
-}
+int main() {
 
-int findPar(int u, vector<int> &parent) {
-    if(u == parent[u]) return u; 
-    return parent[u] = findPar(parent[u], parent); 
-}
+    int V = 5;
+    vector<vector<int>> edges = {{0, 1, 2}, {0, 2, 1}, {1, 2, 1}, {2, 3, 2}, {3, 4, 1}, {4, 2, 2}};
+    vector<vector<int>> adj[V];
+    for (auto it : edges) {
+        vector<int> tmp(2);
+        tmp[0] = it[1];
+        tmp[1] = it[2];
+        adj[it[0]].push_back(tmp);
 
-void unionn(int u, int v, vector<int> &parent, vector<int> &rank) {
-    u = findPar(u, parent);
-    v = findPar(v, parent);
-    if(rank[u] < rank[v]) {
-    	parent[u] = v;
+        tmp[0] = it[0];
+        tmp[1] = it[2];
+        adj[it[1]].push_back(tmp);
     }
-    else if(rank[v] < rank[u]) {
-    	parent[v] = u; 
-    }
-    else {
-    	parent[v] = u;
-    	rank[u]++; 
-    }
-}
-int main(){
-	int N,m;
-	cin >> N >> m;
-	vector<node> edges; 
-	for(int i = 0;i<m;i++) {
-	    int u, v, wt;
-	    cin >> u >> v >> wt; 
-	    edges.push_back(node(u, v, wt)); 
-	}
-	sort(edges.begin(), edges.end(), comp); 
-	
-	vector<int> parent(N);
-	for(int i = 0;i<N;i++) 
-	    parent[i] = i; 
-	vector<int> rank(N, 0); 
-	
-	int cost = 0;
-	vector<pair<int,int>> mst; 
-	for(auto it : edges) {
-	    if(findPar(it.v, parent) != findPar(it.u, parent)) {
-	        cost += it.wt; 
-	        mst.push_back({it.u, it.v}); 
-	        unionn(it.u, it.v, parent, rank); 
-	    }
-	}
-	cout << cost << endl;
-	for(auto it : mst) cout << it.first << " - " << it.second << endl; 
-	return 0;
+
+    Solution obj;
+    int mstWt = obj.spanningTree(V, adj);
+    cout << "The sum of all the edge weights: " << mstWt << endl;
+    return 0;
 }
