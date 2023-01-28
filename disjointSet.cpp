@@ -46,9 +46,10 @@ class DisjointSet{
 
         if(parU == parV)
             return;
-        if(size[parU] < size[parV])
+        if(size[parU] < size[parV]){
             parent[parU] = parV;
-        else{
+            size[parV] += size[parU];
+        }else{
             parent[parV] = parU;
             size[parU] += size[parV];
         }      
